@@ -12,7 +12,7 @@ type Mutation {
 type Quiz {
   quiz_id: ID!
   name: String!
-  weight: Int!
+  benchmark: Int!
   questions: [Question]
 }
 
@@ -43,5 +43,5 @@ input createOptionInput {
 
 input createQuizInput {
   name: String
-  weight: Int
+  benchmark: Int
 }
