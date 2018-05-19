@@ -18,6 +18,7 @@ type Quiz {
 
 type Question {
   question_id: ID!
+  question: String!
   quiz: Quiz!
   options: [Option]
 }
@@ -32,7 +33,6 @@ type Option {
 input createQuestionInput {
   quiz_id: ID!
   question: String!
-  isCorrect: Boolean!
 }
 
 input createOptionInput {
