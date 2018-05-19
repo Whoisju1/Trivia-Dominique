@@ -1,23 +1,14 @@
-const fakeQuiz = {
-  quiz_id: 1323,
-  name: 'Fake Quiz',
-  weight: 80,
-};
-
-const questions = [
-  {
-    question_id: 1,
-  },
-  {
-    question_id: 2,
-  },
-  {
-    question_id: 3,
-  },
-];
-
 const Query = {
-  quiz: async () => fakeQuiz,
+  quiz: async (root, { id: quiz_id }, { postgres }) => { // eslint-disable-line camelcase
+    try {
+      const [data] = await postgres.select()
+        .from('quiz')
+        .where({ quiz_id });
+      return data;
+    } catch (e) {
+      return e;
+    }
+  },
 };
 
 const Mutation = {
@@ -28,7 +19,7 @@ const Mutation = {
 };
 
 const Quiz = {
-  questions: () => questions,
+  questions: () => null,
 };
 
 
