@@ -24,7 +24,7 @@ type Question {
 }
 
 type Option {
-  answer_id: ID!
+  option_id: ID!
   answer: String!
   question: Question!
   isCorrect: Boolean!
