@@ -1,0 +1,47 @@
+type Query {
+  quiz (id: ID!): Quiz
+}
+
+type Mutation {
+  createQuiz (input: createQuizInput!): Quiz
+  createQuestion (input: createQuestionInput!): Question
+  createOptions (input: [createOptionInput]!): Option
+  addOption (input: createOptionInput!): Option
+}
+
+type Quiz {
+  quiz_id: ID!
+  name: String!
+  weight: Int!
+  questions: [Question]
+}
+
+type Question {
+  question_id: ID!
+  quiz: Quiz!
+  options: [Option]
+}
+
+type Option {
+  answer_id: ID!
+  answer: String!
+  question: Question!
+  isCorrect: Boolean!
+}
+
+input createQuestionInput {
+  quiz_id: ID!
+  question: String!
+  isCorrect: Boolean!
+}
+
+input createOptionInput {
+  question_id: ID
+  answer: String
+  isCorrect: Boolean
+}
+
+input createQuizInput {
+  name: String
+  weight: Int
+}
