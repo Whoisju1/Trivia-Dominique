@@ -6,6 +6,7 @@ const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const { makeExecutableSchema } = require('graphql-tools');
 const fs = require('fs');
 const resolvers = require('./resolvers');
+const postgres = require('./db/knex');
 
 const typeDefs = fs.readFileSync('./schema.gql', { encoding: 'utf8' });
 
@@ -20,6 +21,7 @@ app.use('/graphql', graphqlExpress(req => ({
   schema,
   context: {
     req,
+    postgres,
   },
 })));
 
