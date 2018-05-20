@@ -5,8 +5,8 @@ const Query = {
         .from('quiz')
         .where({ quiz_id });
       return data;
-    } catch (e) {
-      return e;
+    } catch (err) {
+      return err;
     }
   },
 };
@@ -20,8 +20,8 @@ const Mutation = {
         .from('quiz');
 
       return quiz;
-    } catch (e) {
-      return e;
+    } catch (err) {
+      return err;
     }
   },
   createQuestion: async (root, { input }, { postgres }) => {
@@ -31,52 +31,72 @@ const Mutation = {
         .returning('*')
         .from('question');
       return question;
-    } catch (e) {
-      return e;
+    } catch (err) {
+      return err;
     }
   },
   createOptions: async (root, { input }, { postgres }) => {
-    const promises = input.map(option => (postgres('option')
-      .insert(option)
-      .returning(['answer', 'option_id', 'question_id', { isCorrect: 'is_correct' }])
-      .from('option')));
+    try {
+      const promises = input.map(option => (postgres('option')
+        .insert(option)
+        .returning(['answer', 'option_id', 'question_id', { isCorrect: 'is_correct' }])
+        .from('option')));
 
-    const options = await Promise.all(promises);
-    return options.map(option => option[0]);
+      const options = await Promise.all(promises);
+      return options.map(option => option[0]);
+    } catch (err) {
+      return err;
+    }
   },
   addOption: async (root, { input }, { postgres }) => {
-    const [option] = await postgres('option')
-      .insert(input)
-      .returning(['answer', 'option_id', 'question_id', { isCorrect: 'is_correct' }])
-      .from('option');
-    return option;
+    try {
+      const [option] = await postgres('option')
+        .insert(input)
+        .returning(['answer', 'option_id', 'question_id', { isCorrect: 'is_correct' }])
+        .from('option');
+      return option;
+    } catch (err) {
+      return err;
+    }
   },
 };
 
 const Quiz = {
   questions: async ({ quiz_id }, args, { postgres }) => {
-    const questions = await postgres('question')
-      .select()
-      .where({ quiz_id });
+    try {
+      const questions = await postgres('question')
+        .select()
+        .where({ quiz_id });
 
-    return questions;
+      return questions;
+    } catch (err) {
+      return err;
+    }
   },
 };
 
 const Question = {
   quiz: async ({ quiz_id }, args, { postgres }) => {
-    const [quiz] = await postgres('quiz')
-      .select()
-      .where({ quiz_id });
+    try {
+      const [quiz] = await postgres('quiz')
+        .select()
+        .where({ quiz_id });
 
-    return quiz;
+      return quiz;
+    } catch (err) {
+      return err;
+    }
   },
   options: async ({ question_id }, args, { postgres }) => {
-    const options = await postgres('option')
-      .select('option_id', 'answer', 'question_id', { isCorrect: 'is_correct' })
-      .where({ question_id });
+    try {
+      const options = await postgres('option')
+        .select('option_id', 'answer', 'question_id', { isCorrect: 'is_correct' })
+        .where({ question_id });
 
-    return options;
+      return options;
+    } catch (err) {
+      return err;
+    }
   },
 };
 
@@ -88,8 +108,8 @@ const Option = {
         .where({ question_id });
 
       return question;
-    } catch (e) {
-      return e;
+    } catch (err) {
+      return err;
     }
   },
 };
