@@ -18,13 +18,21 @@ const Mutation = {
       const [question] = await postgres('question')
         .insert(input)
         .returning('*')
-        .from('question'); // eslint-disable-line camelcase
+        .from('question');
       return question;
     } catch (e) {
       return e;
     }
   },
-  createOptions: async (root, { input }) => null,
+  createOptions: async (root, { input }, { postgres }) => {
+    const promises = input.map(option => (postgres('option')
+      .insert(option)
+      .returning(['answer', 'option_id', 'question_id', { isCorrect: 'is_correct' }])
+      .from('option')));
+
+    const options = await Promise.all(promises);
+    return options.map(option => option[0]);
+  },
   addOption: async (root, { input }, { postgres }) => {
     const [option] = await postgres('option')
       .insert(input)
