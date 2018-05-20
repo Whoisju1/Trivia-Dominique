@@ -12,7 +12,18 @@ const Query = {
 };
 
 const Mutation = {
-  createQuiz: async (root, { input }) => null,
+  createQuiz: async (root, { input }, { postgres }) => {
+    try {
+      const [quiz] = await postgres('quiz')
+        .insert(input)
+        .returning('*')
+        .from('quiz');
+
+      return quiz;
+    } catch (e) {
+      return e;
+    }
+  },
   createQuestion: async (root, { input }, { postgres }) => {
     try {
       const [question] = await postgres('question')
