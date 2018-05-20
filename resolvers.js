@@ -1,5 +1,5 @@
 const Query = {
-  quiz: async (root, { id: quiz_id }, { postgres }) => { // eslint-disable-line camelcase
+  quiz: async (root, { id: quiz_id }, { postgres }) => {
     try {
       const [data] = await postgres.select()
         .from('quiz')
@@ -54,7 +54,13 @@ const Mutation = {
 };
 
 const Quiz = {
-  questions: () => null,
+  questions: async ({ quiz_id }, args, { postgres }) => {
+    const questions = await postgres('question')
+      .select()
+      .where({ quiz_id });
+
+    return questions;
+  },
 };
 
 
