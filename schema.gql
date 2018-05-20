@@ -5,7 +5,7 @@ type Query {
 type Mutation {
   createQuiz (input: createQuizInput!): Quiz
   createQuestion (input: createQuestionInput!): Question
-  createOptions (input: [createOptionInput]!): Option
+  createOptions (input: [createOptionInput]!): [Option]
   addOption (input: createOptionInput!): Option
 }
 
@@ -38,7 +38,7 @@ input createQuestionInput {
 input createOptionInput {
   question_id: ID
   answer: String
-  isCorrect: Boolean
+  is_correct: Boolean
 }
 
 input createQuizInput {
