@@ -1,6 +1,6 @@
 type Query {
   quiz (id: ID!): Quiz
-  quizzes: [Quiz]
+  quizzes(limit: Int, offset: Int): [Quiz]
 }
 
 type Mutation {

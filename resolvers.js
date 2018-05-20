@@ -9,7 +9,12 @@ const Query = {
       return err;
     }
   },
-  quizzes: async (root, args, { postgres }) => postgres('quiz').select(),
+  quizzes: async (root,
+    { limit = 10, offset = 0 },
+    { postgres }) => postgres('quiz')
+    .select()
+    .limit(limit)
+    .offset(offset),
 };
 
 const Mutation = {
