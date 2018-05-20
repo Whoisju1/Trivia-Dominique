@@ -9,6 +9,7 @@ const Query = {
       return err;
     }
   },
+  quizes: async (root, args, { postgres }) => postgres('quiz').select(),
 };
 
 const Mutation = {

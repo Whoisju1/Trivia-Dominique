@@ -1,5 +1,6 @@
 type Query {
   quiz (id: ID!): Quiz
+  quizes: [Quiz]
 }
 
 type Mutation {
