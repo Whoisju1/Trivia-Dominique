@@ -63,5 +63,26 @@ const Quiz = {
   },
 };
 
+const Question = {
+  quiz: async ({ quiz_id }, args, { postgres }) => {
+    const [quiz] = await postgres('quiz')
+      .select()
+      .where({ quiz_id });
 
-module.exports = { Query, Quiz, Mutation };
+    return quiz;
+  },
+  options: async ({ question_id }, args, { postgres }) => {
+    const options = await postgres('option')
+      .select('option_id', 'answer', 'question_id', { isCorrect: 'is_correct' })
+      .where({ question_id });
+
+    return options;
+  },
+};
+
+module.exports = {
+  Query,
+  Quiz,
+  Mutation,
+  Question,
+};
